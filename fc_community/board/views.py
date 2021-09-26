@@ -4,6 +4,7 @@ from .form import BoardForm
 from fcuser.models import Fcuser
 
 from django.http import Http404
+from django.core.paginator import Paginator
 
 # Create your views here.
 
@@ -18,7 +19,7 @@ def board_detail(request,pk):
 def board_write(request):
     if not request.session.get('user'):
         return redirect('/fcuser/login/')
-        
+
     if request.method=='POST':
         form=BoardForm(request.POST)
         if form.is_valid():
@@ -38,5 +39,9 @@ def board_write(request):
     return render(request,'board_write.html',{'form':form})
 
 def board_list(request):
-    boards=Board.objects.all().order_by('-id')
+    all_boards=Board.objects.all().order_by('-id')
+    page=int(request.GET.get('p',1))
+    paginator=Paginator(all_boards,2)
+    
+    boards=paginator.get_page(page)
     return render(request,'board_list.html',{'boards':boards})
