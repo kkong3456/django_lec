@@ -14,6 +14,9 @@ class Board(models.Model):
         verbose_name='작성자',
         on_delete=models.CASCADE
     )
+
+    tags=models.ManyToManyField('tag.Tag',verbose_name="태그")
+
     registered_dttn=models.DateTimeField(
         auto_now_add=True,
         verbose_name='등록시간'

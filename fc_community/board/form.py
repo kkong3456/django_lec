@@ -16,4 +16,9 @@ class BoardForm(forms.Form):
         }
     )
 
+    tags=forms.CharField(
+        required=False,
+        label='태그'
+    )
+
  
